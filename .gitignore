@@ -9,6 +9,8 @@
 
 # environment
 .env
+/client/.env
+/server/.env
 
 # testing
 /coverage
