@@ -18,6 +18,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import { useState, useEffect } from "react";
+import TweetFeed from "./components/TweetFeed";
+import RuleList from "./components/RuleList";
 
 // functions
 import { getUser } from "./api/user";

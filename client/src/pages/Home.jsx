@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../UserContext";
+import TweetFeed from "../components/TweetFeed";
+import RuleList from "../components/RuleList";
 
 const Home = () => {
   const { user } = useContext(UserContext);
@@ -20,6 +22,8 @@ const Home = () => {
           <h2>Tweets</h2>
           <div className="alert alert-primary">
             <h5>Select a game to start streaming tweets</h5>
+            <TweetFeed />
+            <RuleList />
           </div>
         </div>
       </div>
