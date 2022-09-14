@@ -63,66 +63,6 @@ const sleep = async (delay) => {
   return new Promise((resolve) => setTimeout(() => resolve(true), delay));
 };
 
-// // get rules endpoint
-// app.get("/api/rules", async (req, res) => {
-//   if (!BEARER_TOKEN) {
-//     res.status(400).send(authMessage);
-//   }
-
-//   const token = BEARER_TOKEN;
-//   const requestConfig = {
-//     url: rulesURL,
-//     auth: {
-//       bearer: token,
-//     },
-//     json: true,
-//   };
-
-//   try {
-//     const response = await get(requestConfig);
-
-//     if (response.statusCode !== 200) {
-//       if (response.statusCode === 403) {
-//         res.status(403).send(response.body);
-//       } else {
-//         throw new Error(response.body.error.message);
-//       }
-//     }
-
-//     res.send(response);
-//   } catch (e) {
-//     res.send(e);
-//   }
-// });
-
-// // set rules API endpoint
-// app.post("/api/rules", async (req, res) => {
-//   if (!BEARER_TOKEN) {
-//     res.status(400).send(authMessage);
-//   }
-
-//   const token = BEARER_TOKEN;
-//   const requestConfig = {
-//     url: rulesURL,
-//     auth: {
-//       bearer: token,
-//     },
-//     json: req.body,
-//   };
-
-//   try {
-//     const response = await post(requestConfig);
-
-//     if (response.statusCode === 200 || response.statusCode === 201) {
-//       res.send(response);
-//     } else {
-//       throw new Error(response);
-//     }
-//   } catch (e) {
-//     res.send(e);
-//   }
-// });
-
 // stream tweets api
 const streamTweets = (socket, token) => {
   let stream;
@@ -144,7 +84,7 @@ const streamTweets = (socket, token) => {
           const json = JSON.parse(data);
 
           if (json.connection_issue) {
-            socket.emit("error", json);
+            console.log(json);
             reconnect(stream, socket, token);
           } else {
             if (json.data) {
@@ -183,83 +123,6 @@ io.on("connection", async (socket) => {
     io.emit("authError", authMessage);
   }
 });
-
-// // Twitter Stream
-// TOKEN = process.env.TWITTER_BEARER_TOKEN;
-// const rulesURL = "https://api.twitter.com/2/tweets/search/stream/rules";
-// const streamURL =
-//   "https://api.twitter.com/2/tweets/search/stream?tweet.field=public_metrics&expansions=author_id";
-
-// const rules = [{ value: "NBA" }];
-
-// // Get Twitter Stream rules
-// async function getRules() {
-//   const response = await needle("get", rulesURL, {
-//     headers: {
-//       Authorization: `Bearer ${TOKEN}`,
-//     },
-//   });
-//   console.log(response.body);
-//   return response.body;
-// }
-
-// // Set Stream Rules
-// async function setRules() {
-//   const data = {
-//     add: rules,
-//   };
-
-//   const response = await needle("post", rulesURL, data, {
-//     headers: {
-//       "content-type": "application/json",
-//       Authorization: `Bearer ${TOKEN}`,
-//     },
-//   });
-//   console.log(response.body);
-//   return response.body;
-// }
-
-// // Delete Stream Rules
-// async function deleteRules(rules) {
-//   if (!Array.isArray(rules.data)) {
-//     return null;
-//   }
-
-//   const ids = rules.data.map((rule) => rule.id);
-
-//   const data = {
-//     delete: {
-//       ids: ids,
-//     },
-//   };
-
-//   const response = await needle("post", rulesURL, data, {
-//     headers: {
-//       "content-type": "application/json",
-//       Authorization: `Bearer ${TOKEN}`,
-//     },
-//   });
-//   console.log(response.body);
-//   return response.body;
-// }
-
-// (async () => {
-//   let currentRules;
-
-//   try {
-//     // get stream rules
-//     currentRules = await getRules();
-
-//     //delete stream rules
-//     await deleteRules(currentRules);
-
-//     //set rules based on rules array
-//     await setRules();
-//   } catch (error) {
-//     console.log(error);
-//     process.exit(1);
-//   }
-// })();
 
 // db
 mongoose
