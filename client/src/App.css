@@ -1,3 +1,8 @@
 .App {
   text-align: center;
 }
+
+.TweetBox {
+  height: 600px;
+  overflow-y: scroll;
+}

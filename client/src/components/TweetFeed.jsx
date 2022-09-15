@@ -3,6 +3,7 @@ import Tweet from "./Tweet";
 import socketIOClient from "socket.io-client";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
+import "../App.css";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,9 +40,13 @@ const TweetFeed = () => {
     let socket;
 
     if (process.env.NODE_ENV === "development") {
-      socket = socketIOClient("http://localhost:8080/");
+      socket = socketIOClient("http://localhost:8080/", {
+        transports: ["websocket"],
+      });
     } else {
-      socket = socketIOClient("/");
+      socket = socketIOClient("/", {
+        transports: ["websocket"],
+      });
     }
 
     socket.on("connect", () => {});
@@ -136,7 +141,7 @@ const TweetFeed = () => {
       {reconnectMessage()}
       {errorMessage()}
       {waitingMessage()}
-      {showTweets()}
+      <div className="TweetBox">{showTweets()}</div>
     </div>
   );
 };
