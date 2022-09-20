@@ -1,8 +1,16 @@
 .App {
   text-align: center;
+  width: max-content;
 }
 
 .TweetBox {
   height: 600px;
   overflow-y: scroll;
+}
+
+.GameBox {
+  border-width: 2px;
+  border-color: blueviolet;
+  border-style: dashed;
+  border-radius: 25px;
 }

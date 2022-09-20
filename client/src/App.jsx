@@ -39,7 +39,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ width: "1440px" }}>
       <Router>
         <UserContext.Provider value={{ user, setUser }}>
           <ToastContainer autoClose={1500} />

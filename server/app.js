@@ -12,13 +12,15 @@ const http = require("http");
 const request = require("request");
 const path = require("path");
 const socketIo = require("socket.io");
+const util = require("util");
+require("request").debug = true;
+const post = util.promisify(request.post);
+const get = util.promisify(request.get);
 
 // const needle = require("needle");
 
 // app
 const app = express();
-// const post = util.promisify(request.post);
-// const get = util.promisify(request.get);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -83,9 +85,12 @@ const streamTweets = (socket, token) => {
         try {
           const json = JSON.parse(data);
 
-          if (json.connection_issue) {
+          if (json.connection_issue && !json.data) {
             console.log(json);
+            socket.emit("error", json);
+            console.log("GOT PAST EMIT");
             reconnect(stream, socket, token);
+            console.log("reconnected!!!");
           } else {
             if (json.data) {
               socket.emit("tweet", json);
@@ -99,6 +104,7 @@ const streamTweets = (socket, token) => {
       })
       .on("error", (error) => {
         // Connection timed out
+        console.log("ERROR HAPPENEDDDDDDDDDD!!!!!!!!!!!!!");
         reconnect(stream, socket, token);
       });
   } catch (e) {
@@ -111,7 +117,7 @@ const reconnect = async (stream, socket, token) => {
   timeout++;
   stream.abort();
   await sleep(2 ** timeout * 1000);
-  streamTweets(socket, token);
+  stream.resume();
 };
 
 // socket connection
