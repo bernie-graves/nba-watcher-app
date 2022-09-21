@@ -5,8 +5,17 @@ import TweetFeed from "./TweetFeed";
 const GameBox = () => {
   const rulesURL = "/api/rules";
 
+  // get current rules function
+  const getCurrentRules = () => {};
+
   // delete current rules
   const deleteAllRules = () => {
+    // get current rules ids
+
+    // setup request payload to delete rules
+
+    // send request to Twitter API
+
     return;
   };
 
